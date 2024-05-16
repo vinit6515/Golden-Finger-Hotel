@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.gold-bg {
+    background: radial-gradient(
+        rgba(217, 119, 6, 255),
+        rgba(212, 165, 11, 255),
+        rgba(217, 119, 6, 255)
+    );
+}

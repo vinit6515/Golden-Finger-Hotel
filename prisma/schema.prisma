@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  Manager
+  Staff
+  User
+}
+
+model User {
+  userId       String        @id @default(uuid())
+  userMail     String
+  userPassword String
+  userName     String
+  userRole     UserRole
+  RoomBooking  RoomBooking[]
+}
+
+//
+// model S3Object {
+//   objectKey         String @id
+//   objectFileName    String
+//   objectSizeBytes   Int
+//   objectContentType String
+// }
+
+model Room {
+  roomId          String        @id @default(uuid())
+  roomName        String
+  roomDescription String
+  roomCapacity    Int
+  roomPrice       Int
+  RoomBooking     RoomBooking[]
+}
+
+model RoomBooking {
+  bookingId     String   @id @default(uuid())
+  bookingStart  DateTime
+  bookingEnd    DateTime
+  bookingUser   User     @relation(fields: [bookingUserId], references: [userId])
+  bookingUserId String
+  bookingRoom   Room     @relation(fields: [bookingRoomId], references: [roomId])
+  bookingRoomId String
+}
